@@ -1,23 +1,38 @@
 <script>
 export default {
-  name: 'JobListing'
+  name: 'JobListing',
+  props: {
+    job: {
+      type: Object,
+      required: true
+    }
+  },
+  computed:{
+    jobPageLink(){
+      return `/jobs/results/${this.job.id}`;
+    }
+  }
 }
 </script>
 
 <template>
   <li class="mb-7">
-    <router-link to="/job/results/1" class="mx-auto block rounded border border-solid border-brand-grey-2 bg-white hover:shadow-gray">
+    <router-link :to="jobPageLink" class="mx-auto block rounded border border-solid border-brand-grey-2 bg-white hover:shadow-gray">
       <div class="mx-8 border-b border-solid border-brand-grey-2 pt-5 pb-2">
         <h2 class="mb-2 text-2xl">
-          Manager Reality
+          {{job.title}}
         </h2>
 
         <div class="flex flex-row align-middle">
           <div class="mr-5">
-            <span>Bobo</span>
+            <span>{{job.organization}}</span>
           </div>
-
-          <span>Midrand, CA, SA</span>
+          <ul>
+            <li v-for="locations in job.locations"
+                :key="location" class="mr-5 inline-block">
+              <span>{{locations}}</span>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -26,14 +41,13 @@ export default {
           <h3 class=" mt-1 mb-2">Qualifications</h3>
           <div>
             <ul class="list-disc pl-8">
-              <li>Asocciate degree</li>
-              <li>5 years od SQl</li>
-              <li>DATA modlelling and statistics</li>
+              <li v-for="qualifications in job.minimumQualifications"
+                  :key="qualifications">{{qualifications}}</li>
             </ul>
           </div>
         </div>
         <div class="mt-2 text-center">
-          <router-link to="/job/results/1" class=" text-brand-blue-1">
+          <router-link :to="jobPageLink" class=" text-brand-blue-1">
             Expand
           </router-link>
         </div>
